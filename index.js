@@ -37,9 +37,43 @@ const findCustomer = (name) => {
     });
 }
 
-//Export All Methods
 
+//Update Customer
+const updateCustomer = (_id, customer) => {
+    
+    Customer.updateOne({ _id },customer)
+    .then(customer => {
+        console.info('Customer Updated');
+        mongoose.connection.close();
+    })
+}
+
+//Remove Customer
+const removeCustomer = (_id) => {
+    Customer.deleteOne({_id})
+    .then(customer => {
+        console.info('Customer Removed');
+        mongoose.connection.close();
+    })
+}
+
+//List All Customers
+const listCustomers = () => {
+    Customer.find()
+    .then(customers => {
+        console.info(customers);
+        console.info(`${customers.length} customers`);
+        mongoose.connection.close();
+
+    })
+}
+
+
+//Export All Methods
 module.exports = {
-    addCustomer,
-    findCustomer
+addCustomer,
+findCustomer,
+updateCustomer,
+removeCustomer,
+listCustomers
 }
