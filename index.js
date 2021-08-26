@@ -8,7 +8,6 @@ const db = mongoose.connect('mongodb://localhost:27017/passwordcli',{
     useUnifiedTopology: true
 });
 
-
 //Import Model
 const Password = require('./models/Password');
 
@@ -22,7 +21,6 @@ const addSecret = (secret) => {
 }
 
 //Find Secret
-
 const findSecret= (secretname) => {
     //Make case insensitive
     const search = new RegExp(secretname,'i');
