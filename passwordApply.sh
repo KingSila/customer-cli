@@ -24,7 +24,7 @@ for i in ${files[@]};do
   echo "Secret Found...."$i
   sed -i "s/$oldpass/$password/g" $i
   updatedpassword=$(cat $i |grep password |cut -d':' -f2|sed 's/^[ \s]*//;s/[ \s]*$//')
-  echo "++ $updatedpassword++$password++"
+  echo "......$updatedpassword.....$password...."
   if [ "$updatedpassword" != "$password" ]
   then
     echo "failed to update secrets $i"
