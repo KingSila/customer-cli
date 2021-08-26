@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 
 mongoose.Promise = global.Promise;
 //Connect to db
-const db = mongoose.connect('mongodb://localhost:27017/customercli',{
+const db = mongoose.connect('mongodb://localhost:27017/passwordcli',{
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
@@ -12,57 +12,57 @@ const db = mongoose.connect('mongodb://localhost:27017/customercli',{
 
 //Import Model
 
-const Customer = require('./models/Customer');
+const Password = require('./models/Password');
 
-//Add Customer
-const addCustomer = (customer) => {
-    Customer.create(customer).then(customer => {
-        console.info('New Customer Added');
+//Add Secret
+const addSecret = (secret) => {
+    Password.create(secret).then(secret => {
+        console.info('New Secret Added');
         mongoose.connection.close();
     });
 
 }
 
 
-//Find Customer
+//Find Secret
 
-const findCustomer = (name) => {
+const findSecret= (secretname) => {
     //Make case insensitive
-    const search = new RegExp(name,'i');
-    Customer.find({$or: [{firstname: search},{lastname: search}]})
-    .then(customer => {
-        console.info(customer);
-        console.info(`${customer.length} matches`);
+    const search = new RegExp(secretname,'i');
+    Password.find({$or: [{secretname: search},{secretusername: search}]})
+    .then(password => {
+        console.info(password);
+        console.info(`${password.length} matches`);
         mongoose.connection.close();
     });
 }
 
 
-//Update Customer
-const updateCustomer = (_id, customer) => {
+//Update Secret
+const updateSecret = (_id, password) => {
     
-    Customer.updateOne({ _id },customer)
-    .then(customer => {
-        console.info('Customer Updated');
+    Password.updateOne({ _id },password)
+    .then(password => {
+        console.info('Secret Updated');
         mongoose.connection.close();
     })
 }
 
-//Remove Customer
-const removeCustomer = (_id) => {
-    Customer.deleteOne({_id})
-    .then(customer => {
-        console.info('Customer Removed');
+//Remove Secret
+const removeSecret = (_id) => {
+    Password.deleteOne({_id})
+    .then(password => {
+        console.info('Secret Removed');
         mongoose.connection.close();
     })
 }
 
-//List All Customers
-const listCustomers = () => {
-    Customer.find()
-    .then(customers => {
-        console.info(customers);
-        console.info(`${customers.length} customers`);
+//List All Secrets
+const listSecret = () => {
+    Password.find()
+    .then(passwords => {
+        console.info(passwords);
+        console.info(`${passwords.length} secrets`);
         mongoose.connection.close();
 
     })
@@ -71,9 +71,9 @@ const listCustomers = () => {
 
 //Export All Methods
 module.exports = {
-addCustomer,
-findCustomer,
-updateCustomer,
-removeCustomer,
-listCustomers
+addSecret,
+findSecret,
+updateSecret,
+removeSecret,
+listSecret
 }
