@@ -1,6 +1,8 @@
 #!/bin/sh 
 #set -o xtrace
 
+#This script updates the password on the cluster and also on the repo
+
 if [ $# -lt "5" ]; then
   echo "You need to pass username,Newpassword,oldencodedpassword,branchname,jiraticketnumber" #datasource name,namespace,environment#
   exit 1
