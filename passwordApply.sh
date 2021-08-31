@@ -27,15 +27,14 @@ for i in ${files[@]};do
   sed -i "s/$oldpass/$password/g" $i
   updatedpassword=$(cat $i |grep password |cut -d':' -f2|sed 's/^[ \s]*//;s/[ \s]*$//')
   echo "......$updatedpassword.....$password...."
-  if [ "$updatedpassword" != "$password" ]
+  if [ "$updatedpassword" == "$password" ]
   then
-    echo "failed to update secrets $i"
-echo "password in current secret is $updatedpassword but you looking for $oldpass**"
-  else
     echo "updating secrets $(cat $i |grep 'name:'|cut -d':' -f2|sed 's/^[ \s]*//;s/[ \s]*$//')"
-    echo "kubectl apply -f $i"
+    echo "kubectl apply -f $i" 
+  else 
+      echo "failed to update secrets $i"
+      echo "password in current secret is $updatedpassword but you typed $oldpass**"
   fi
-  
 done
 #git commit -am "$5 Change passwords for $1" 
 #git push
