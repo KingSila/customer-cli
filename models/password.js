@@ -4,9 +4,11 @@ const mongoose = require('mongoose');
 const passwordSchema = mongoose.Schema({
     secretname: {type: String},
     secretusername: {type: String},
-    secretpassword: {type: String},
-    secretcreatedate: {type: Date, default: Date.now},
-    usernamepasswordexpirydate: {type: Date}
+    oldsecretpassword: {type: String},
+    newsecretpassword: {type: String},
+    secretlastupdatedate: {type: Date, default: Date.now},
+    passwordexpirydate: {type: Date},
+    lastuserupdated:{type: String}
 });
 
 //Define and Export Customer
