@@ -7,7 +7,11 @@ const{
     findSecret,
     updateSecret,
     removeSecret,
-    listSecret
+    listSecret,
+    addSecretUsage,
+    findSecretUsage,
+    updateSecretUsage,
+    removeSecretUsage
 } = require('./index');
 
 //Secret File Questions
@@ -24,21 +28,63 @@ const questions = [
     },
     {
         type:'input',
-        name:'secretpassword',
-        message: 'Secret username Password'
+        name:'oldsecretpassword',
+        message: 'Previous Secret  Password'
     },
     {
         type:'input',
-        name:'secretcreatedate',
-        message: 'Secret Created Date'
+        name:'newsecretpassword',
+        message: 'New Secret  Password'
+    },
+    {
+        type:'input',
+        name:'secretlastupdatedate',
+        message: 'Secret Last Update Date'
     }, 
     {
         type:'input',
-        name:'usernamepasswordexpirydate',
+        name:'passwordexpirydate',
         message: 'Password Expiry Date'
+    },
+    {
+        type:'input',
+        name:'lastuserupdated',
+        message: 'User'
     }
 
 ];
+
+// Secret usage questions
+const usagequestions = [
+    {
+        type:'input',
+        name:'secretname',
+        message: 'Secret Name'
+    },
+    {
+        type:'input',
+        name:'secretusername',
+        message: 'Secret Username '
+    },
+    {
+        type:'input',
+        name:'microservice1',
+        message: 'microservice1'
+    },
+    {
+        type:'input',
+        name:'microservice2',
+        message: 'microservice2'
+    },
+    {
+        type:'input',
+        name:'microservice3',
+        message: 'microservice3'
+    }
+ 
+
+];
+
 
 //Add Command
 program
@@ -79,6 +125,41 @@ program
     .alias('l')
     .description('List all secrets')
     .action(() => listSecret());
+
+    //Add Command for secret usage
+program
+.command('addusage')
+.alias('au')
+.description('Add a secret usage')
+.action(() => {
+    prompt(usagequestions).then(answers => addSecretUsage(answers));
+});
+
+
+//Find Command for secret usage
+program
+    .command('findusage <secretname>')
+    .alias('fu')
+    .description('Find a secret usage')
+    .action(secretname => findSecretUsage(secretname));
+
+//Update Command for secret usage
+program
+    .command('updateusage <_id>')
+    .alias('uu')
+    .description('Update a secret usage')
+    .action(_id => {
+        prompt(usagequestions).then(answers => updateSecretUsage(_id,answers));
+    });
+
+
+//Remove Command for secret usage
+program
+    .command('removeusage <_id>')
+    .alias('ru')
+    .description('Remove a secret usage')
+    .action(_id => removeSecretUsage(_id));
+
 
 program
     .version('1.0.0')
