@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+
 //Password Schema
 const passwordSchema = mongoose.Schema({
     secretname: {type: String},
@@ -7,9 +8,10 @@ const passwordSchema = mongoose.Schema({
     oldsecretpassword: {type: String},
     newsecretpassword: {type: String},
     secretlastupdatedate: {type: Date, default: Date.now},
-    passwordexpirydate: {type: Date},
-    lastuserupdated:{type: String}
+    passwordexpirydate: {type: Date}
+    
 });
+
 
 //Define and Export Customer
 module.exports = mongoose.model('Password',passwordSchema);
