@@ -1,27 +1,61 @@
 const mongoose = require('mongoose');
+const cp = require('child_process');
+const  userauditLogger = require('./userauditLogger');
+let db ='';
+let logger = null;
 
 
 
 //Map global promise  - get rid of warning
 mongoose.Promise = global.Promise;
 //Connect to db
-const db = mongoose.connect('mongodb://localhost:27017/passwordcli',{
+  db = mongoose.connect('mongodb://localhost:27017/passwordcli',{
     useNewUrlParser: true,
     useUnifiedTopology: true
+    
 });
+
+//Logging
+logger = userauditLogger();
 
 //Import Model
 const Password = require('./models/Password');
 const SecretUsage = require('./models/SecretUsage');
+const UserAudit = require('./models/audit');
+
+
+
+
 
 //Add Secret
-const addSecret = (secret) => {
+async function addSecret(secret)  {
     Password.create(secret).then(secret => {
-        console.info('New Secret Added');
-        mongoose.connection.close();
-    });
 
+        //check who logged in
+    cp.exec('whoami', (err, stdout, stderr) => {
+    logger.info('user: ' + stdout);
+    
+    if (err) {
+        console.info('error: ' + err);
+        return
+    }
+    })
+   
+        console.info('New Secret Added...saving the data to MONGODB..');
+        logger.info('New Secret Added.');
+        logger.info('Secret: ' +  secret.secretname);
+        mongoose.connection.close();
+      
+       
+    });
+   
 }
+
+setTimeout(function (){
+    console.log("Data persisted to MONGODB I am exiting......." ); 
+    process.exit();  
+    
+},40000);
 
 //Find Secret
 const findSecret= (secretname) => {
@@ -32,6 +66,7 @@ const findSecret= (secretname) => {
         console.info(password);
         console.info(`${password.length} matches`);
         mongoose.connection.close();
+      
     });
 }
 
@@ -42,6 +77,7 @@ const updateSecret = (_id, password) => {
     .then(password => {
         console.info('Secret Updated');
         mongoose.connection.close();
+        
     })
 }
 
@@ -117,5 +153,6 @@ listSecret,
 addSecretUsage,
 findSecretUsage,
 updateSecretUsage,
-removeSecretUsage
+removeSecretUsage,
+logger
 }

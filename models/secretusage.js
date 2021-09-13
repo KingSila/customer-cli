@@ -3,10 +3,7 @@ const mongoose = require('mongoose');
 //Password Schema
 const secretusageSchema = mongoose.Schema({
     secretname: {type: String},
-    secretusername: {type: String},
-    microservice1: {type: String},
-    microservice2: {type: String},
-    microservice3: {type: String},
+    microservices:{type: Object},
     lastuserupdated:{type: String}
 });
 

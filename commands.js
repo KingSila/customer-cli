@@ -2,6 +2,7 @@
 const program = require('commander');
 const {prompt} = require('inquirer');
 const { version } = require('mongoose');
+
 const{
     addSecret,
     findSecret,
@@ -36,53 +37,11 @@ const questions = [
         name:'newsecretpassword',
         message: 'New Secret  Password'
     },
-    {
-        type:'input',
-        name:'secretlastupdatedate',
-        message: 'Secret Last Update Date'
-    }, 
-    {
+     {
         type:'input',
         name:'passwordexpirydate',
         message: 'Password Expiry Date'
-    },
-    {
-        type:'input',
-        name:'lastuserupdated',
-        message: 'User'
     }
-
-];
-
-// Secret usage questions
-const usagequestions = [
-    {
-        type:'input',
-        name:'secretname',
-        message: 'Secret Name'
-    },
-    {
-        type:'input',
-        name:'secretusername',
-        message: 'Secret Username '
-    },
-    {
-        type:'input',
-        name:'microservice1',
-        message: 'microservice1'
-    },
-    {
-        type:'input',
-        name:'microservice2',
-        message: 'microservice2'
-    },
-    {
-        type:'input',
-        name:'microservice3',
-        message: 'microservice3'
-    }
- 
-
 ];
 
 
@@ -126,14 +85,14 @@ program
     .description('List all secrets')
     .action(() => listSecret());
 
-    //Add Command for secret usage
-program
-.command('addusage')
-.alias('au')
-.description('Add a secret usage')
-.action(() => {
-    prompt(usagequestions).then(answers => addSecretUsage(answers));
-});
+//     //Add Command for secret usage
+// program
+// .command('addusage')
+// .alias('au')
+// .description('Add a secret usage')
+// .action(() => {
+//     prompt(usagequestions).then(answers => addSecretUsage(answers));
+// });
 
 
 //Find Command for secret usage
