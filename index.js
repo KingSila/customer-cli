@@ -46,16 +46,17 @@ async function addSecret(secret)  {
         logger.info('Secret: ' +  secret.secretname);
         mongoose.connection.close();
       
+        setTimeout(function (){
+            console.log("Data persisted to MONGODB I am exiting......." ); 
+            process.exit();  
+            
+        },40000);
        
     });
    
 }
 
-setTimeout(function (){
-    console.log("Data persisted to MONGODB I am exiting......." ); 
-    process.exit();  
-    
-},40000);
+
 
 //Find Secret
 const findSecret= (secretname) => {
@@ -66,6 +67,11 @@ const findSecret= (secretname) => {
         console.info(password);
         console.info(`${password.length} matches`);
         mongoose.connection.close();
+        setTimeout(function (){
+            console.log("..............................................." ); 
+            process.exit();  
+            
+        },500);
       
     });
 }
@@ -73,10 +79,27 @@ const findSecret= (secretname) => {
 //Update Secret
 const updateSecret = (_id, password) => {
     
-    Password.updateOne({ _id },password)
+    Password.updateOne({ _id },password,{new:true, upsert: true, timestamps:{createdAt:false, updatedAt:true}})
     .then(password => {
-        console.info('Secret Updated');
+
+        //check who logged in
+        cp.exec('whoami', (err, stdout, stderr) => {
+        logger.info('user: ' + stdout);
+        
+        if (err) {
+            console.info('error: ' + err);
+            return
+        }
+        })
+        logger.info(' Secret Updated.');
+        logger.info('Secret Object ID: ' +  _id);
         mongoose.connection.close();
+
+        setTimeout(function (){
+            console.log("Data persisted to MONGODB I am exiting......." ); 
+            process.exit();  
+            
+        },20000);
         
     })
 }
@@ -85,8 +108,23 @@ const updateSecret = (_id, password) => {
 const removeSecret = (_id) => {
     Password.deleteOne({_id})
     .then(password => {
-        console.info('Secret Removed');
+          //check who logged in
+        cp.exec('whoami', (err, stdout, stderr) => {
+        logger.info('user: ' + stdout); 
+        if (err) {
+        console.info('error: ' + err);
+        return
+        }
+        })
+        logger.info('Secret Removed.');
+        logger.info('Secret ID : ' +  _id);
         mongoose.connection.close();
+
+        setTimeout(function (){
+            console.log("Data persisted to MONGODB I am exiting......." ); 
+            process.exit();  
+            
+        },10000);
     })
 }
 
@@ -97,18 +135,23 @@ const listSecret = () => {
     console.info(passwords);
     console.info(`${passwords.length} secrets`);
     mongoose.connection.close();
+    setTimeout(function (){
+        console.log("..............................................." ); 
+        process.exit();  
+        
+    },500);
 
     })
 }
 
-//Add new secret usage
-const addSecretUsage = (secret) => {
-    SecretUsage.create(secret).then(secret => {
-        console.info('New Secret Usage Added');
-        mongoose.connection.close();
-    });
+// //Add new secret usage
+// const addSecretUsage = (secret) => {
+//     SecretUsage.create(secret).then(secret => {
+//         console.info('New Secret Usage Added');
+//         mongoose.connection.close();
+//     });
 
-}
+// }
 
 
 const findSecretUsage = (secretname) => {
@@ -150,7 +193,6 @@ findSecret,
 updateSecret,
 removeSecret,
 listSecret,
-addSecretUsage,
 findSecretUsage,
 updateSecretUsage,
 removeSecretUsage,

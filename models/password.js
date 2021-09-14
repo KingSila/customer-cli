@@ -7,10 +7,10 @@ const passwordSchema = mongoose.Schema({
     secretusername: {type: String},
     oldsecretpassword: {type: String},
     newsecretpassword: {type: String},
-    secretlastupdatedate: {type: Date, default: Date.now},
     passwordexpirydate: {type: Date}
-    
-});
+},
+    {timestamps: true}
+);
 
 
 //Define and Export Customer
