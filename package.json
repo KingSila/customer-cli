@@ -1,5 +1,5 @@
 {
-  "name": "customer-cli",
+  "name": "Customer-cli",
   "version": "1.0.0",
   "description": "Customer management CLI",
   "main": "index.js",
