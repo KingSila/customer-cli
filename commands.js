@@ -2,81 +2,126 @@
 const program = require('commander');
 const {prompt} = require('inquirer');
 const { version } = require('mongoose');
+
 const{
-    addCustomer,
-    findCustomer,
-    updateCustomer,
-    removeCustomer,
-    listCustomers
+    addSecret,
+    findSecret,
+    updateSecret,
+    removeSecret,
+    listSecret,
+    addSecretUsage,
+    findSecretUsage,
+    updateSecretUsage,
+    removeSecretUsage
 } = require('./index');
 
-//Customer Questions
+//Secret File Questions
 const questions = [
     {
         type:'input',
-        name:'firstname',
-        message: 'Customer First Name'
+        name:'secretname',
+        message: 'Secret Name'
     },
     {
         type:'input',
-        name:'lastname',
-        message: 'Customer Last Name'
+        name:'secretusername',
+        message: 'Secret Username '
     },
     {
         type:'input',
-        name:'phone',
-        message: 'Customer Phone Number'
+        name:'oldsecretpassword',
+        message: 'Previous Secret  Password'
     },
     {
         type:'input',
-        name:'email',
-        message: 'Customer Email Address'
+        name:'newsecretpassword',
+        message: 'New Secret  Password'
+    },
+     {
+        type:'input',
+        name:'passwordexpirydate',
+        message: 'Password Expiry Date'
     }
-
 ];
+
 
 //Add Command
 program
     .command('add')
     .alias('a')
-    .description('Add a customer')
+    .description('Add a secret')
     .action(() => {
-        prompt(questions).then(answers => addCustomer(answers));
+        prompt(questions).then(answers => addSecret(answers));
     });
 
 //Find Command
 program
-    .command('find <name>')
+    .command('find <secretusername>')
     .alias('f')
-    .description('Find a customer')
-    .action(name => findCustomer(name));
+    .description('Find a secret')
+    .action(secretusername => findSecret(secretusername));
 
 
 //Update Command
 program
     .command('update <_id>')
     .alias('u')
-    .description('Update a customer')
+    .description('Update a secret')
     .action(_id => {
-        prompt(questions).then(answers => updateCustomer(_id,answers));
+        prompt(questions).then(answers => updateSecret(_id,answers));
     });
 
 //Remove Command
 program
     .command('remove <_id>')
     .alias('r')
-    .description('Remove a customer')
-    .action(_id => removeCustomer(_id));
+    .description('Remove a secret')
+    .action(_id => removeSecret(_id));
 
 //List Command
 program
     .command('list')
     .alias('l')
-    .description('List all customers')
-    .action(() => listCustomers());
+    .description('List all secrets')
+    .action(() => listSecret());
+
+//     //Add Command for secret usage
+// program
+// .command('addusage')
+// .alias('au')
+// .description('Add a secret usage')
+// .action(() => {
+//     prompt(usagequestions).then(answers => addSecretUsage(answers));
+// });
+
+
+//Find Command for secret usage
+program
+    .command('findusage <secretname>')
+    .alias('fu')
+    .description('Find a secret usage')
+    .action(secretname => findSecretUsage(secretname));
+
+//Update Command for secret usage
+program
+    .command('updateusage <_id>')
+    .alias('uu')
+    .description('Update a secret usage')
+    .action(_id => {
+        prompt(usagequestions).then(answers => updateSecretUsage(_id,answers));
+    });
+
+
+//Remove Command for secret usage
+program
+    .command('removeusage <_id>')
+    .alias('ru')
+    .description('Remove a secret usage')
+    .action(_id => removeSecretUsage(_id));
+
 
 program
     .version('1.0.0')
-    .description('Client Management System')
+    .description('Password Management System')
 
 program.parse(process.argv);

@@ -1,7 +1,7 @@
 {
-  "name": "Customer-cli",
+  "name": "Password-cli",
   "version": "1.0.0",
-  "description": "Customer management CLI",
+  "description": "Password management CLI",
   "main": "index.js",
   "preferGlobal": true,
   "bin": "./commands.js",
@@ -11,8 +11,12 @@
   "author": "Silas Mokone",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "commander": "^8.1.0",
+    "express": "^4.17.3",
     "inquirer": "^8.1.2",
-    "mongoose": "^5.13.8"
+    "mongoose": "^5.13.8",
+    "winston": "^3.3.3",
+    "winston-mongodb": "^5.0.7"
   }
 }
